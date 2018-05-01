@@ -1,5 +1,4 @@
-SHORTENER
----
+# SHORTENER
 
 ## How to dev
 
@@ -26,7 +25,7 @@ Install & run
 npm install && npm run dev
 ```
 
-### Contribute
+## Contribute
 
 1. Code a few awesome features o hunt&catch bugs
 2. Prepare
