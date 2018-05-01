@@ -1,0 +1,20 @@
+# Dependencies
+/node_modules
+package-lock.json
+npm-debug.log
+
+# Editors
+*.sublime-workspace
+
+# Misc
+logs/
+*.log
+*.env
+.env
+
+# System Files
+._*
+.DS_Store
+.DS_Store?
+.Trashes
+Thumbs.db
