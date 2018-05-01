@@ -28,20 +28,16 @@ npm install && npm run dev
 
 ### Contribute
 
-##### 1
-Code a few awesome features or hunt&catch bugs
+1 - Code a few awesome features or hunt&catch bugs
 
-##### 2
-Prepare
+2 - Prepare
 
-###### a
-Commit your changes
+a - Commit your changes
 ```bash
 git add -A && git commit -m '[issue_ticket] [commit_mesage]'
 ```
 
-###### b
-Rebasing your branch
+b - Rebasing your branch
 ```bash
 git rebsate origin/master
 ```
@@ -51,14 +47,11 @@ You may or may not have to resolve conflicts, modify conflict files and then
 git add [conflicted_files] && git rebase -—continue
 ```
 
-###### c
-Push it.
+c - Push it.
 ```bash
 git push origin
 ```
 
-##### 3
-Create a new Pull Request, be sure to explain your feature/fix issue.
+3 - Create a new Pull Request, be sure to explain your feature/fix issue.
 
-##### 4
-Wait for Pull Response & merge.
+4 - Wait for Pull Response & merge.
