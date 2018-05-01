@@ -59,8 +59,8 @@ app.all ('/', (req, res) => {
 
 //! Server
 const deploy = () => {
-  app.listen (settings.server.port);
   const schema = `http://${settings.server.hostname}:${settings.server.port}`;
+  app.listen (settings.server.port);
   app.logger.info (`Listening on ${schema.yellow}`);
 };
 

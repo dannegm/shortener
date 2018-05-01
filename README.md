@@ -37,7 +37,12 @@ a - Commit your changes
 git add -A && git commit -m '[issue_ticket] [commit_mesage]'
 ```
 
-b - Rebasing your branch
+b - Gather the master changes
+```bash
+git fetch origin
+```
+
+c - Rebasing your branch
 ```bash
 git rebase origin/master
 ```
@@ -47,7 +52,7 @@ You may or may not have to resolve conflicts, modify conflict files and then
 git add [conflicted_files] && git rebase -—continue
 ```
 
-c - Push it.
+d - Push it.
 ```bash
 git push origin
 ```
