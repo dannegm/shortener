@@ -39,7 +39,7 @@ git add -A && git commit -m '[issue_ticket] [commit_mesage]'
 
 b - Rebasing your branch
 ```bash
-git rebsate origin/master
+git rebase origin/master
 ```
 
 You may or may not have to resolve conflicts, modify conflict files and then
