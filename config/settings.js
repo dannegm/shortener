@@ -1,10 +1,11 @@
 'use strict';
 require ('dotenv').config ();
 
-const
-  hostname = process.env.HOSTNAME,
-  port = process.env.PORT || 3000,
-  secret = process.env.SECRET;
+let server = {
+  hostname: process.env.HOSTNAME,
+  port: process.env.PORT || 3000,
+  secret: process.env.SECRET,
+}
 
 let mongo = {
   host: process.env.MONGO_HOST,
@@ -14,19 +15,9 @@ let mongo = {
   password: process.env.MONGO_PASSWORD || '',
 };
 mongo.auth = mongo.user != '' && mongo.password != '' ? `${mongo.user}:${mongo.password}@` : '';
+mongo.schema = `mongodb://${mongo.auth}${mongo.host}:${mongo.port}/${mongo.database}`;
 
 module.exports = {
-  server: {
-    hostname,
-    port,
-    secret,
-  },
-  mongo: {
-    schema: `mongodb://${mongo.auth}${mongo.host}:${mongo.port}/${mongo.database}`,
-    host: mongo.host,
-    port: mongo.port,
-    database: mongo.database,
-    user: mongo.user,
-    password: mongo.password,
-  }
+  server,
+  mongo,
 };

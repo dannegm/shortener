@@ -4,7 +4,8 @@
   "description": "The most useful API to short URL's",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon .",
+    "debug": "node inspect ."
   },
   "author": "dannegm",
   "license": "MIT",
