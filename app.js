@@ -34,13 +34,13 @@ app.logger.configure ({
   transports: [
     new (winston.transports.Console) ({
       name: 'Console',
-      timestamp: () => (new Date ()).toISOString (),
+      timestamp: (new Date ()).toISOString (),
       colorize: true,
     }),
     new (winston.transports.File) ({
       name: 'File',
       filename: `${process.env.npm_package_name}.log`,
-      timestamp: () => (new Date ()).toISOString (),
+      timestamp: (new Date ()).toISOString (),
       json: false,
     }),
   ],
@@ -53,7 +53,9 @@ app.all ('*', (req, res, next) => {
 });
 app.all ('/', (req, res) => {
   res.json ({
-    message: 'Few steps to greatness.'
+    method: req.method,
+    message: 'Few steps to greatness.',
+    body: req.body,
   });
 });
 

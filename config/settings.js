@@ -3,7 +3,7 @@ require ('dotenv').config ();
 
 const
   hostname = process.env.HOSTNAME,
-  port = process.env.PORT || 300,
+  port = process.env.PORT || 3000,
   secret = process.env.SECRET;
 
 let mongo = {
