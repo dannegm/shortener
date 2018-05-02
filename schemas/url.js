@@ -10,6 +10,10 @@ const body = {
   user: { type: Schema.Types.ObjectId, ref: 'user' },
   visits: [{ type: Schema.Types.ObjectId, ref: 'visit' }],
 
+  url: {
+    type: String,
+    required: true,
+  }
   short: {
     type: String,
     required: true,
@@ -20,6 +24,10 @@ const body = {
     required: true,
     unique: true
   },
+
+  protocol: String,
+  domain: String,
+  path: String,
   og: Mixed,
 };
 module.exports = model ('url', new Schema (body, { collection });
