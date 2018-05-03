@@ -29,7 +29,9 @@ app
   }));
 
 //! Logger
-app.logger = new winston.Logger ();
+app.logger = new winston.Logger ({
+
+});
 app.logger.configure ({
   transports: [
     new (winston.transports.Console) ({
@@ -42,6 +44,10 @@ app.logger.configure ({
       filename: `${process.env.npm_package_name}.log`,
       timestamp: (new Date ()).toISOString (),
       json: false,
+      formatter: (options) => {
+        const message = options.message.replace (/(\u001B)|(\\u[0-9a-f]{0,4})|(\[[0-9a-z]{1,3})/gi, '');
+        return `${options.timestamp} - [${options.level.toUpperCase ()}] ${message}`;
+      },
     }),
   ],
 });
