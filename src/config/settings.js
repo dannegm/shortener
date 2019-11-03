@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { generateParams } from '@/utils/helpers'
 
 let server = {
-  hostname: process.env.HOSTNAME,
+  hostname: process.env.HOSTNAME || 'localhost',
   port: process.env.PORT || 3000,
   secret: process.env.SECRET,
 }
