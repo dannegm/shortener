@@ -3,7 +3,7 @@ import { generateParams } from '@/utils/helpers'
 
 let server = {
   hostname: process.env.HOSTNAME || 'localhost',
-  port: process.env.PORT || 3000,
+  port: process.env.now ? 8080 : (process.env.PORT || 3000),
   secret: process.env.SECRET,
 }
 
@@ -35,8 +35,6 @@ const mongoShemaDev = `mongodb://${mongo.auth}${mongo.host}:${mongo.port}/${mong
 const mongoSchemaProd = `mongodb+srv://${mongo.auth}${mongo.host}/${mongo.database}?${generateParams(mongo.query)}`
 
 mongo.schema = process.env.NODE_ENV !== 'development' ? mongoShemaDev : mongoSchemaProd
-
-console.log('SCHEMA', mongo.schema)
 
 export default {
   server,

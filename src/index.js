@@ -80,4 +80,9 @@ app.use (handleErrors)
 
 //* Server
 import server from '@/app'
-server (app)
+const deploy = () => {
+    server (app)
+}
+if (!module.parent) deploy ()
+
+export default deploy

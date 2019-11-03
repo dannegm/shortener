@@ -1,6 +1,12 @@
 {
     "name": "shortener",
     "version": 2,
+    "builds": [
+        {
+            "src": "src/index.js",
+            "use": "@now/node-server"
+        }
+    ],
     "env": {
         "SECRET": "@secret",
 
