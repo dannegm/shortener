@@ -12,7 +12,7 @@ import cors from 'cors'
 import { highlight }  from 'cli-highlight'
 
 import settings from './config/settings'
-import modules from './modules'
+import buildModules from './modules'
 
 const app = express ()
 
@@ -75,7 +75,7 @@ app.use ((req, res, next) => {
     }
     app.logger.info (`${' HTTP '.black.bold.bgWhite} ${methods [req.method]} ${req.path}`)
     // app.outputs.json ('HEADERS', req.headers);
-    // app.outputs.json ('BODY', req.body);
+    app.outputs.json ('BODY', req.body);
     next ()
 });
 
@@ -90,6 +90,8 @@ app.all ('/', (req, res) => {
 //* Server
 const deploy = () => {
     const schema = `http://${settings.server.hostname}:${settings.server.port}`
+
+    buildModules (app)
     app.listen (settings.server.port)
     app.logger.info (`Listening on ${schema.yellow}`)
 }
