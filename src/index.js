@@ -12,7 +12,6 @@ import cors from 'cors'
 import { highlight }  from 'cli-highlight'
 
 import settings from '@/config/settings'
-import buildModules from '@/modules'
 import { handleErrors } from '@/utils/handlers'
 
 const app = express ()
@@ -33,7 +32,6 @@ app
             saveUninitialized: true,
         })
     )
-
 
 const { log } = console
 app.logger = new winston.Logger ()
@@ -80,21 +78,6 @@ app.use ((req, res, next) => {
 
 app.use (handleErrors)
 
-app.all ('/', (req, res) => {
-    res.json ({
-        method: req.method,
-        message: 'Few steps to greatness.',
-        body: req.body,
-    })
-})
-
 //* Server
-const deploy = () => {
-    const schema = `http://${settings.server.hostname}:${settings.server.port}`
-
-    buildModules (app)
-    app.listen (settings.server.port)
-    app.logger.info (`Listening on ${schema.yellow}`)
-}
-
-deploy ()
+import server from '@/app'
+server (app)

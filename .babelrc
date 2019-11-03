@@ -4,9 +4,9 @@
     ],
     "plugins": [
         ["module-resolver", {
-            "root": ["./"],
+            "root": ["./src"],
             "alias": {
-                "@": "./"
+                "@": "./src"
             }
         }]
     ]
