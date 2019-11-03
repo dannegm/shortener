@@ -1,0 +1,15 @@
+{
+    "name": "shortener",
+    "version": 2,
+    "env": {
+        "HOSTNAME": "@HOSTNAME",
+        "PORT": "@PORT",
+        "SECRET": "@SECRET",
+
+        "MONGO_HOST": "@MONGO_HOST",
+        "MONGO_PORT": "@MONGO_PORT",
+        "MONGO_DATABASE": "@MONGO_DATABASE",
+        "MONGO_USER": "@MONGO_USER",
+        "MONGO_PASSWORD": "@MONGO_PASSWORD"
+    }
+}

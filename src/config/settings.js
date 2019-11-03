@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import { generateParams } from '@/utils/helpers'
 
 let server = {
   hostname: process.env.HOSTNAME,
@@ -12,6 +13,10 @@ let mongo = {
     database: process.env.MONGO_DATABASE,
     user: process.env.MONGO_USER || '',
     password: process.env.MONGO_PASSWORD || '',
+    query: {
+        retryWrites: true,
+        w: 'majority',
+    },
     options: {
         useCreateIndex: true,
         useNewUrlParser: true,
@@ -23,8 +28,15 @@ let mongo = {
         keepAlive: 120,                     // Check TCP socket status every x milliseconds.
     },
 }
-mongo.auth = mongo.user != '' && mongo.password != '' ? `${mongo.user}:${mongo.password}@` : '';
-mongo.schema = `mongodb://${mongo.auth}${mongo.host}:${mongo.port}/${mongo.database}`;
+
+mongo.auth = mongo.user != '' && mongo.password != '' ? `${mongo.user}:${mongo.password}@` : ''
+
+const mongoShemaDev = `mongodb://${mongo.auth}${mongo.host}:${mongo.port}/${mongo.database}?${generateParams(mongo.query)}`
+const mongoSchemaProd = `mongodb+srv://${mongo.auth}${mongo.host}/${mongo.database}?${generateParams(mongo.query)}`
+
+mongo.schema = process.env.NODE_ENV !== 'development' ? mongoShemaDev : mongoSchemaProd
+
+console.log('SCHEMA', mongo.schema)
 
 export default {
   server,

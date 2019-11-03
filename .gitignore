@@ -12,6 +12,7 @@ logs/
 *.env
 .env
 dist/
+public/
 
 # System Files
 ._*

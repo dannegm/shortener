@@ -4,9 +4,11 @@
     "description": "The most useful API to short URL's",
     "main": "app.js",
     "scripts": {
+        "start": "npm run dev",
         "dev": "nodemon --exec babel-node src",
-        "build": "babel src --out-dir dist",
-        "debug": "node inspect src"
+        "build": "babel src --out-dir public",
+        "debug": "node inspect src",
+        "deploy": "now --prod"
     },
     "author": "dannegm",
     "license": "MIT",
