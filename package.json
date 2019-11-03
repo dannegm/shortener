@@ -6,6 +6,7 @@
     "scripts": {
         "start": "npm run dev",
         "dev": "nodemon --exec babel-node src",
+        "prod": "pm2 start src --interpreter babel-node",
         "build": "babel src --out-dir dist",
         "debug": "node inspect src",
         "deploy": "now --prod"
