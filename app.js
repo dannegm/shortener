@@ -11,8 +11,9 @@ import helmet from 'helmet'
 import cors from 'cors'
 import { highlight }  from 'cli-highlight'
 
-import settings from './config/settings'
-import buildModules from './modules'
+import settings from '@/config/settings'
+import buildModules from '@/modules'
+import { handleErrors } from '@/utils/handlers'
 
 const app = express ()
 
@@ -57,11 +58,9 @@ app.logger.configure ({
     ],
 })
 
-app.outputs = {
-    json (tag, code) {
-        log (`[${tag}]`.magenta.bold)
-        log (highlight (JSON.stringify (code, null, 2)))
-    }
+app.logger.json = (tag, code) => {
+    log (`[${tag}]`.magenta.bold)
+    log (highlight (JSON.stringify (code, null, 4)))
 }
 
 //* Log all request
@@ -74,10 +73,12 @@ app.use ((req, res, next) => {
         'PATCH': req.method.cyan.bold,
     }
     app.logger.info (`${' HTTP '.black.bold.bgWhite} ${methods [req.method]} ${req.path}`)
-    // app.outputs.json ('HEADERS', req.headers);
-    app.outputs.json ('BODY', req.body);
+    // app.logger.json ('HEADERS', req.headers);
+    app.logger.json ('BODY', req.body);
     next ()
 });
+
+app.use (handleErrors)
 
 app.all ('/', (req, res) => {
     res.json ({
