@@ -29,14 +29,18 @@ let mongo = {
     },
 }
 
-mongo.auth = mongo.user != '' && mongo.password != '' ? `${mongo.user}:${mongo.password}@` : ''
+const mongoAuth = mongo.user != '' && mongo.password != '' ? `${mongo.user}:${mongo.password}@` : ''
+const mongoShemaDev = `mongodb://${mongoAuth}${mongo.host}:${mongo.port}/${mongo.database}?${generateParams(mongo.query)}`
+const mongoSchemaProd = `mongodb+srv://${mongoAuth}${mongo.host}/${mongo.database}?${generateParams(mongo.query)}`
+mongo.schema = process.env.NODE_ENV === 'development' ? mongoShemaDev : mongoSchemaProd
 
-const mongoShemaDev = `mongodb://${mongo.auth}${mongo.host}:${mongo.port}/${mongo.database}?${generateParams(mongo.query)}`
-const mongoSchemaProd = `mongodb+srv://${mongo.auth}${mongo.host}/${mongo.database}?${generateParams(mongo.query)}`
-
-mongo.schema = process.env.NODE_ENV !== 'development' ? mongoShemaDev : mongoSchemaProd
+const crypt = {
+    salt: 10,
+    secret: process.env.SECRET,
+}
 
 export default {
   server,
   mongo,
+  crypt,
 }

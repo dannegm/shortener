@@ -12,7 +12,7 @@ import cors from 'cors'
 import { highlight }  from 'cli-highlight'
 
 import settings from '@/config/settings'
-import { handleErrors } from '@/utils/handlers'
+import { logger, handleErrors } from '@/utils/middlewares'
 
 const app = express ()
 
@@ -62,20 +62,7 @@ app.logger.json = (tag, code) => {
 }
 
 //* Log all request
-app.use ((req, res, next) => {
-    const methods = {
-        'GET': req.method.blue.bold,
-        'POST': req.method.green.bold,
-        'PUT': req.method.yellow.bold,
-        'DELETE': req.method.red.bold,
-        'PATCH': req.method.cyan.bold,
-    }
-    app.logger.info (`${' HTTP '.black.bold.bgWhite} ${methods [req.method]} ${req.path}`)
-    // app.logger.json ('HEADERS', req.headers);
-    app.logger.json ('BODY', req.body);
-    next ()
-});
-
+app.use (logger)
 app.use (handleErrors)
 
 //* Server

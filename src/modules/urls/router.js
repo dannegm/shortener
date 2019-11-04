@@ -1,10 +1,15 @@
 import urlsController from './controller';
 export default function urlsRouter (app) {
     app
-        .get('/s/:short?', urlsController.REDIRECT)
+        .route ('/s/:short?')
+        .all (urlsController.REDIRECT)
 
     app
-        .get('/urls', urlsController.GET)
-        .get('/urls/:hash?', urlsController.GET)
-        .post('/urls', urlsController.POST)
+        .route ('/urls')
+        .get (urlsController.GET)
+        .post (urlsController.POST)
+
+    app
+        .route ('/urls/:hash?')
+        .get (urlsController.GET)
 }

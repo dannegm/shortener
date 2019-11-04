@@ -26,8 +26,15 @@ const responses = {
             description,
         })
     },
+    UNAUTHORIZED (res, description = {}) {
+        res.status(401).json({
+            status: 401,
+            error: 'Unauthorized',
+            description,
+        })
+    },
     NOT_FOUND (res, description = {}) {
-        res.status(400).json({
+        res.status(404).json({
             status: 404,
             error: 'Not Found',
             description,
@@ -35,7 +42,7 @@ const responses = {
     },
 
     INTERNAL_ERROR (res, description = {}) {
-        res.status(400).json({
+        res.status(500).json({
             status: 500,
             error: 'Internal Server Error',
             description,

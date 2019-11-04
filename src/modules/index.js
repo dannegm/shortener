@@ -1,4 +1,5 @@
 const modules = [
+    'login',
     'users',
     'urls',
 ]

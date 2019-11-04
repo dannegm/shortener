@@ -13,8 +13,8 @@ const urlsController = {
             return
         }
 
-        const model = await UrlModel.find({ hash })
-        if (!model || !model.length) {
+        const [ model ] = await UrlModel.find({ hash })
+        if (!model) {
             responses.NOT_FOUND (res, {
                 hash,
                 message: 'URL with providen hash not found',
@@ -22,7 +22,7 @@ const urlsController = {
             return
         }
 
-        responses.OK (res, model[0])
+        responses.OK (res, model)
         return
 	},
 
@@ -30,9 +30,9 @@ const urlsController = {
         const { url } = req.body
         const hash = uuid (url, uuid.URL)
 
-        const registers = await UrlModel.find({ hash })
-        if (registers.length) {
-            responses.OK (res, registers[0])
+        const [ registered ] = await UrlModel.find ({ hash })
+        if (!!registered) {
+            responses.OK (res, registered)
             return
         }
 
@@ -61,8 +61,8 @@ const urlsController = {
             return
         }
 
-        const model = await UrlModel.find({ short })
-        if (!model || !model.length) {
+        const [ model ] = await UrlModel.find({ short })
+        if (!model) {
             responses.NOT_FOUND (res, {
                 short,
                 message: 'URL with providen short code not found',
@@ -70,7 +70,7 @@ const urlsController = {
             return
         }
 
-        responses.REDIRECT (res, model[0].url)
+        responses.REDIRECT (res, model.url)
         return
     }
 };
