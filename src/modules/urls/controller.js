@@ -75,4 +75,4 @@ const urlsController = {
     }
 };
 
-export default urlsController;
+export default urlsController

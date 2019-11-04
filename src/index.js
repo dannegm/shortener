@@ -49,8 +49,8 @@ app.logger.configure ({
             timestamp: (new Date ()).toISOString (),
             json: false,
             formatter: (options) => {
-                const message = options.message.replace (/(\u001B)|(\\u[0-9a-f]{0,4})|(\[[0-9a-z]{1,3})/gi, '');
-                return `${options.timestamp} - [${options.level.toUpperCase ()}] ${message}`;
+                const message = options.message.replace (/(\u001B)|(\\u[0-9a-f]{0,4})|(\[[0-9a-z]{1,3})/gi, '')
+                return `${options.timestamp} - [${options.level.toUpperCase ()}] ${message}`
             },
         }),
     ],

@@ -2,9 +2,9 @@ import 'dotenv/config'
 import { generateParams } from '@/utils/helpers'
 
 let server = {
-  hostname: process.env.HOSTNAME || 'localhost',
-  port: process.env.now ? 8080 : (process.env.PORT || 3000),
-  secret: process.env.SECRET,
+    hostname: process.env.HOSTNAME || 'localhost',
+    port: process.env.PORT || 3000,
+    secret: process.env.SECRET,
 }
 
 let mongo = {

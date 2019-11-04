@@ -4,7 +4,7 @@
     "description": "The most useful API to short URL's",
     "main": "src/index.js",
     "scripts": {
-        "start": "node --exec babel-node src",
+        "start": "PORT=80 node --exec babel-node src",
         "dev": "nodemon --exec babel-node src",
         "prod": "pm2 start src --interpreter babel-node",
         "build:dist": "babel src --out-dir dist",
