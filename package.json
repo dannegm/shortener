@@ -3,7 +3,7 @@
     "version": "3.0.0",
     "description": "The most useful API to short URL's",
     "scripts": {
-        "start": "node --exec babel-node src",
+        "start": "npm run build:dist && node dist",
         "dev": "nodemon --exec babel-node src",
         "prod": "pm2 start src --interpreter babel-node",
         "build:dist": "babel src --out-dir dist",

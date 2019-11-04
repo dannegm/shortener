@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import 'dotenv/config'
 import 'colors'
 
@@ -20,7 +21,7 @@ app.locals.hostname = settings.server.hostname
 mongoose.connect (settings.mongo.schema, settings.mongo.options)
 
 app
-    .use (favicon ('./src/assets/favicon.ico'))
+    .use (favicon ('./favicon.ico'))
     .use (helmet ())
     .use (cors ())
     .use (bodyParser.json ())

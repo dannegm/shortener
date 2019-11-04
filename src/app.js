@@ -2,7 +2,7 @@ import swagger from 'swagger-ui-express'
 
 import settings from '@/config/settings'
 import buildModules from '@/modules'
-import swaggerDocument from '@/assets/swagger.json'
+import swaggerDocument from '@/../swagger.json'
 
 export default function (app) {
     const swaggerOptions = {
