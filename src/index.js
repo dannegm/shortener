@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import 'colors'
 
-import express from 'express';
+import express from 'express'
 import mongoose from 'mongoose'
 import winston from 'winston'
 import session from 'express-session'
@@ -20,7 +20,7 @@ app.locals.hostname = settings.server.hostname
 mongoose.connect (settings.mongo.schema, settings.mongo.options)
 
 app
-    .use (favicon ('./favicon.ico'))
+    .use (favicon ('./src/assets/favicon.ico'))
     .use (helmet ())
     .use (cors ())
     .use (bodyParser.json ())

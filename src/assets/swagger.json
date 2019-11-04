@@ -1,0 +1,292 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Quick Documentation for Shortener API",
+        "version": "3.0.0",
+        "title": "SHORTENER API",
+        "contact": {
+            "name": "Daniel García",
+            "url": "https://github.com/dannegm",
+            "email": "im@danielgarcia.me"
+        }
+    },
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/dannegm/shortener/blob/master/LICENSE"
+    },
+    "schemes": [
+        "http"
+    ],
+    "tags": [
+        {
+            "name": "LOGIN",
+            "description": "Endpoints related to LOGIN"
+        },
+        {
+            "name": "USERS",
+            "description": "Endpoints related to USERS"
+        },
+        {
+            "name": "URLS",
+            "description": "Endpoints related to URL's"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "LOGIN"
+                ],
+                "summary": "Retrieve a JSON Web Token",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Login Schema",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/LOGIN"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TOKEN"
+                        }
+                    },
+                    "400": {
+                        "description": "User Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/BAD_REQUEST"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid Data",
+                        "schema": {
+                            "$ref": "#/definitions/NOT_FOUND"
+                        }
+                    }
+                }
+            }
+        },
+        "/urls": {
+            "get": {
+                "tags": [
+                    "URLS"
+                ],
+                "summary": "Retrieve a list of all the URL's shorted",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/URL_SCHEMA"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "URLS"
+                ],
+                "summary": "Create a short URL's",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "URL to Short",
+                        "type": "string",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "required": true
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK - Response if the URL already exists",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/URL_SCHEMA"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "CREATED",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/URL_SCHEMA"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/urls/{hash}": {
+            "get": {
+                "tags": [
+                    "URLS"
+                ],
+                "summary": "Retrieve a specific URL from it hash",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "hash",
+                        "type": "string",
+                        "required": true,
+                        "description": "A uniq hash generated base on the url content",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/URL_SCHEMA"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "BAD_REQUEST": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "NOT_FOUND": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "LOGIN": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "required": true
+                },
+                "password": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        "TOKEN": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "number"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "token": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "URL_SCHEMA": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "pattern": "[0-9a-f]{24}"
+                },
+                "hash": {
+                    "type": "string",
+                    "pattern": "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+                },
+                "short": {
+                    "type": "string",
+                    "pattern": "[0-9a-fA-F]{8}"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        }
+    }
+}
