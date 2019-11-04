@@ -1,4 +1,4 @@
-import { INTERNAL_ERROR } from './responses'
+import responses from '@/utils/responses'
 import { verifyJWT } from '@/utils/security'
 import UserModel from '@/modules/users/model'
 
@@ -6,7 +6,7 @@ const handleErrors = (req, res, handler) => {
     try {
         handler ()
     } catch (error) {
-        INTERNAL_ERROR (res, { error })
+        responses.INTERNAL_ERROR (res, { error })
     }
 }
 

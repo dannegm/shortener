@@ -13,6 +13,9 @@
     },
     "author": "dannegm",
     "license": "MIT",
+    "engines": {
+        "node": "10.x"
+    },
     "dependencies": {
         "@babel/polyfill": "^7.6.0",
         "bcryptjs": "^2.4.3",
