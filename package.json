@@ -7,8 +7,7 @@
         "dev": "nodemon --exec babel-node src",
         "prod": "pm2 start src --interpreter babel-node",
         "build:dist": "babel src --out-dir dist",
-        "debug": "node inspect src",
-        "deploy": "now --prod"
+        "debug": "node inspect src"
     },
     "author": "dannegm",
     "license": "MIT",
