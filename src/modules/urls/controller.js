@@ -2,18 +2,22 @@ import uuid from 'uuid/v5'
 import { parse } from 'url'
 
 import responses from '@/utils/responses'
-import UrlModel from './model'
+import UserModel from '@/modules/users/model'
+import { UrlModel, VisitModel } from './model'
 
 const urlsController = {
 	async GET (req, res) {
         const { hash } = req.params
         if (!hash) {
-            const registers = await UrlModel.find({})
+            const registers = await UrlModel.find({}).populate('author', '_id name email')
             responses.OK (res, registers)
             return
         }
 
         const [ model ] = await UrlModel.find({ hash })
+            .populate('author', '_id name email')
+            .populate('visits', '-_id -__v')
+
         if (!model) {
             responses.NOT_FOUND (res, {
                 hash,
@@ -23,6 +27,28 @@ const urlsController = {
         }
 
         responses.OK (res, model)
+        return
+    },
+
+	async GET_BY_USER (req, res) {
+        let _id;
+
+        if (!req.user) {
+            _id = req.params._id
+            const [ user ] = await UserModel.find({ _id })
+
+            if (!user) {
+                responses.UNAUTHORIZED(res, {
+                    message: 'User Not Found'
+                })
+                return
+            }
+        } else {
+            _id = req.user._id
+        }
+
+        const models = await UrlModel.find({ author: _id }).populate('author', '_id name email')
+        responses.OK (res, models)
         return
 	},
 
@@ -37,7 +63,7 @@ const urlsController = {
         }
 
         const { protocol, hostname, pathname } = parse (url)
-        const urlData = {
+        let urlData = {
             url,
             hash,
             protocol,
@@ -45,6 +71,12 @@ const urlsController = {
             path: pathname,
             short: hash.split('-')[0],
         }
+
+        if (!!req.user) {
+            urlData.author = req.user
+        }
+
+        req.app.logger.json('MODEL', urlData)
 
         const model = new UrlModel(urlData)
         model.save()
@@ -70,8 +102,19 @@ const urlsController = {
             return
         }
 
+        const visitData = {
+            remoteIP: req.headers ['x-forwarded-for'],
+            userAgent: req.headers ['user-agent'],
+            referer: req.headers ['referer'],
+        }
+        const visit = new VisitModel (visitData)
+        visit.save()
+
+        model.visits.push(visit)
+        model.visitsCount += 1;
+        model.save()
+
         responses.REDIRECT (res, model.url)
-        return
     }
 };
 

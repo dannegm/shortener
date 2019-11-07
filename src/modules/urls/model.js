@@ -1,12 +1,15 @@
 import { Schema, model } from 'mongoose'
 
-const collection = 'urls'
-const schema = {
+const UrlModel = model ('urls', new Schema ({
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
 
-    // user: { type: Schema.Types.ObjectId, ref: 'user' },
-    // visits: [{ type: Schema.Types.ObjectId, ref: 'visit' }],
+    author: { type: Schema.Types.ObjectId, ref: 'users' },
+    visits: [{ type: Schema.Types.ObjectId, ref: 'visits' }],
+    visitsCount: {
+        type: Number,
+        default: 0,
+    },
 
     url: {
         type: String,
@@ -26,7 +29,18 @@ const schema = {
     protocol: String,
     domain: String,
     path: String,
-}
+}))
 
-const UrlModel = model (collection, new Schema (schema))
-export default UrlModel
+const VisitModel = model ('visits', new Schema ({
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now },
+
+    remoteIP: String,
+    userAgent: String,
+    referer: String,
+}))
+
+export {
+    UrlModel,
+    VisitModel,
+}

@@ -47,8 +47,25 @@ const auth = async (req, res, next) => {
     }
 }
 
+const optionalAuth = async (req, res, next) => {
+    try {
+        const [ header, token ] = req.headers.authorization.split(' ')
+        const { _id } = await verifyJWT (token)
+        const [ user ] = await UserModel.find({ _id })
+
+		if (!!user) {
+            req.user = user
+        }
+
+        next ()
+    } catch (error) {
+        next ()
+    }
+}
+
 export {
     handleErrors,
     logger,
     auth,
+    optionalAuth,
 }

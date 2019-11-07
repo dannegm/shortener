@@ -1,5 +1,5 @@
 import { auth } from '@/utils/middlewares'
-import userController from './controller';
+import userController from './controller'
 
 export default function userRouter (app) {
     app
@@ -13,7 +13,7 @@ export default function userRouter (app) {
         .post (userController.POST)
 
     app
-        .route ('/users/:id?')
+        .route ('/users/:_id?')
         .get (userController.GET)
         // .put(userController.PUT)
         // .patch(userController.PATCH)

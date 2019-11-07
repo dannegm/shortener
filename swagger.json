@@ -19,6 +19,10 @@
     ],
     "tags": [
         {
+            "name": "REDIRECT",
+            "description": "Endpoints related to REDIRECT"
+        },
+        {
             "name": "LOGIN",
             "description": "Endpoints related to LOGIN"
         },
@@ -32,6 +36,33 @@
         }
     ],
     "paths": {
+        "/s/{short}": {
+            "get": {
+                "tags": [
+                    "REDIRECT"
+                ],
+                "summary": "Redirect the given short code into a url",
+                "parameters": [
+                    {
+                        "name": "short",
+                        "type": "string",
+                        "required": true,
+                        "description": "The short code to redirect",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "301": {
+                        "description": "Moved Permanently",
+                        "headers": {
+                            "Location": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "tags": [
@@ -187,6 +218,129 @@
                     }
                 }
             }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "USERS"
+                ],
+                "summary": "Retrieve a list of all the Users",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/USER_SCHEMA"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "USERS"
+                ],
+                "summary": "Create a new User",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "URL to Short",
+                        "type": "string",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "required": true
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "required": true
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "required": true
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CREATED",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/USER_SCHEMA"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BAD REQUEST",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/BAD_REQUEST"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{_id}": {
+            "get": {
+                "tags": [
+                    "USERS"
+                ],
+                "summary": "Retrieve a specific User with the given ID",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "type": "string",
+                        "required": true,
+                        "description": "A uniq ID for the user",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/USER_SCHEMA"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/NOT_FOUND"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -251,6 +405,29 @@
                 }
             }
         },
+        "USER_SCHEMA": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "pattern": "[0-9a-f]{24}"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
         "URL_SCHEMA": {
             "type": "object",
             "properties": {
@@ -278,6 +455,15 @@
                 "path": {
                     "type": "string"
                 },
+                "visits": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VISIT_SCHEMA"
+                    }
+                },
+                "visitsCount": {
+                    "type": "number"
+                },
                 "created_at": {
                     "type": "string",
                     "format": "date-time"
@@ -286,6 +472,29 @@
                     "type": "string",
                     "format": "date-time"
                 }
+            }
+        },
+        "VISIT_SCHEMA": {
+            "_id": {
+                "type": "string",
+                "pattern": "[0-9a-f]{24}"
+            },
+            "remoteIP": {
+                "type": "string"
+            },
+            "userAgent": {
+                "type": "string"
+            },
+            "referer": {
+                "type": "string"
+            },
+            "created_at": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "updated_at": {
+                "type": "string",
+                "format": "date-time"
             }
         }
     }

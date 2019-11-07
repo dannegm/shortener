@@ -10,18 +10,18 @@ const userController = {
     },
 
 	async GET (req, res) {
-        const { id } = req.params
+        const { _id } = req.params
 
-		if (!id) {
-            const registers = await UserModel.find({})
+		if (!_id) {
+            const registers = await UserModel.find({}, '-password')
             responses.OK (res, registers)
             return
         }
 
-        const [ model ] = await UserModel.find({ _id: id })
+        const [ model ] = await UserModel.find({ _id }, '-password')
 		if (!model) {
             responses.NOT_FOUND (res, {
-                id,
+                _id,
                 message: 'User with providen ID not found',
             })
             return
@@ -36,7 +36,9 @@ const userController = {
         const [ registered ] = await UserModel.find ({ email })
 
         if (!!registered) {
-            responses.OK (res, registered)
+            responses.BAD_REQUEST (res, {
+                message: 'The user already exist',
+            })
             return
         }
 
@@ -45,7 +47,6 @@ const userController = {
             email,
             password: await hashPassword (password),
         }
-        console.log(userData)
 
         const model = new UserModel(userData)
         model.save ()

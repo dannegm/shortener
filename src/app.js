@@ -5,10 +5,7 @@ import buildModules from '@/modules'
 import swaggerDocument from '@/../swagger.json'
 
 export default function (app) {
-    const swaggerOptions = {
-        explorer: true
-    }
-    app.use('/documentation', swagger.serve, swagger.setup (swaggerDocument, swaggerOptions))
+    app.use('/documentation', swagger.serve, swagger.setup (swaggerDocument, { explorer: true }))
     app.route('/').all((req, res) => res.redirect(301, '/documentation'))
     buildModules (app)
 
