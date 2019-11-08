@@ -5,6 +5,9 @@ export default function urlsRouter (app) {
     app
         .route ('/s/:short?')
         .all (urlsController.REDIRECT)
+    app
+        .route ('/qr/:short?\.:ext?')
+        .all (urlsController.QRCODE)
 
     app
         .route ('/urls')

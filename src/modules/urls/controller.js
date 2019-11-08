@@ -1,6 +1,9 @@
 import uuid from 'uuid/v5'
+import QRCode from 'qrcode'
 import { parse } from 'url'
+import opengraph from 'open-graph-scraper'
 
+import settings from '@/config/settings'
 import responses from '@/utils/responses'
 import UserModel from '@/modules/users/model'
 import { UrlModel, VisitModel } from './model'
@@ -76,6 +79,13 @@ const urlsController = {
             urlData.author = req.user
         }
 
+        try {
+            const ogData = await opengraph({ url })
+            urlData.ogTags = ogData.data
+        } catch (e) {
+            console.warn(e)
+        }
+
         req.app.logger.json('MODEL', urlData)
 
         const model = new UrlModel(urlData)
@@ -111,10 +121,24 @@ const urlsController = {
         visit.save()
 
         model.visits.push(visit)
-        model.visitsCount += 1;
+        model.visitsCount += 1
         model.save()
 
         responses.REDIRECT (res, model.url)
+    },
+
+    async QRCODE (req, res) {
+        const { short, ext = 'png' } = req.params
+        const { hostname, port } = settings.server
+
+        const hasPort = port !== '80'
+        const portSchema = hasPort ? `:${port}` : ''
+        const uri = `http://${hostname}${portSchema}/s/${short}`
+
+        const qrcode = await QRCode.toDataURL(uri, {
+            type: `image/${ext}`
+        })
+        responses.IMAGE(res, qrcode)
     }
 };
 

@@ -29,6 +29,7 @@ const UrlModel = model ('urls', new Schema ({
     protocol: String,
     domain: String,
     path: String,
+    ogTags: Schema.Types.Mixed,
 }))
 
 const VisitModel = model ('visits', new Schema ({

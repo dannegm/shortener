@@ -455,6 +455,25 @@
                 "path": {
                     "type": "string"
                 },
+                "ogTags": {
+                    "type": "object",
+                    "properties": {
+                        "ogTitle": {
+                            "type": "string"
+                        },
+                        "ogDescription": {
+                            "type": "string"
+                        },
+                        "ogImage": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
                 "visits": {
                     "type": "array",
                     "items": {

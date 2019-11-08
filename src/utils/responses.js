@@ -48,5 +48,19 @@ const responses = {
             description,
         })
     },
+
+    IMAGE (res, content) {
+        const [ data, base64 ] = content.split ('base64,')
+        const [ _, contentType ] = data.split (':')
+        const buffer = Buffer.from (base64, 'base64')
+
+        res
+            .status (200)
+            .set ({
+                'Content-Type': contentType,
+                'Content-Length': buffer.length,
+            })
+            .end(buffer)
+    }
 }
 export default responses
