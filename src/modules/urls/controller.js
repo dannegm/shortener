@@ -131,7 +131,7 @@ const urlsController = {
         const { short, ext = 'png' } = req.params
         const { hostname, port } = settings.server
 
-        const hasPort = port !== '80'
+        const hasPort = process.env.NODE_ENV !== 'production'
         const portSchema = hasPort ? `:${port}` : ''
         const uri = `http://${hostname}${portSchema}/s/${short}`
 
