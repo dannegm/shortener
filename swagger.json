@@ -63,6 +63,43 @@
                 }
             }
         },
+        "/qr/{short}.{ext}": {
+            "get": {
+                "tags": [
+                    "REDIRECT"
+                ],
+                "summary": "Create a QR code with the Short URL.",
+                "parameters": [
+                    {
+                        "name": "short",
+                        "type": "string",
+                        "required": true,
+                        "description": "The short code to redirect",
+                        "in": "path"
+                    },
+                    {
+                        "name": "ext",
+                        "type": "string",
+                        "required": true,
+                        "description": "QR  Code fromat (.png, .jpeg, .webp)",
+                        "in": "path"
+                    }
+                ],
+                "produces": [
+                    "image/png",
+                    "image/jpeg",
+                    "image/webp"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "QR Code",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "tags": [
